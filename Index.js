@@ -6,15 +6,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const pool = new Pool({
+/*const pool = new Pool({
   user: "postgres",       // change to your postgres username
   host: "localhost",
   database: "sea_birds",  // your database name
   password: "your_password", // change to your postgres password
   port: 5432,
+});*/
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 });
 
-app.use(express.static("public"));
+/*app.use(express.static("public"));*/
+app.use(express.static("."));
 
 app.get("/players", async (req, res) => {
   try {
