@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Team Summary & Expenses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter';
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 20px;
+    }
+    .card {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #4CAF50;
+      color: white;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+    }
+    tr:hover {
+      background: #f9f9f9;
+      transition: 0.3s;
+    }
+    .amount-pos { color: #2e7d32; font-weight: 600; }
+    .amount-neg { color: #c62828; font-weight: 600; }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+    .summary-row { background: #f1f8e9; font-weight: bold; }
+    .summary-row td { border-top: 2px solid #4CAF50; }
+    .highlight-red { color: #c62828; font-weight: bold; }
+    .highlight-green { color: #2e7d32; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🏏 Sea Birds Team Dashboard</h1>
+
+  <!-- TEAM SUMMARY -->
+  <div class="card">
+    <h2>📊 Team Summary</h2>
+    <div id="team-summary"></div>
+  </div>
+
+  <!-- EXPENSES -->
+  <div class="card">
+    <h2>💰 Team Expenses</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="expenses-body">
+        <!-- Data will load here -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOURNAMENTS -->
+  <div class="card">
+  <h2>🏆 Tournaments</h2>
+  
+  <label style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+    <input type="checkbox" id="completedFilter">
+    Show Completed Tournaments
+  </label>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Entry Fee</th>
+        <th>Paid</th>
+        <th>Balance</th>
+        <th>Prize Won</th>
+        <th>Completed?</th>
+      </tr>
+    </thead>
+    <tbody id="tournaments-body">
+      <!-- Data will load here -->
+    </tbody>
+  </table>
+</div>
+
+
+<!-- MONTHLY CONTRIBUTION -->
+<div class="card">
+  <h2>💰 Monthly Contribution Summary</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Paid Month</th>
+        <th>Paid By</th>
+        <th>Paid On</th>
+        <th>Paid Amount</th>
+      </tr>
+    </thead>
+    <tbody id="monthlycontribution-body">
+      <!-- Data will load here -->
+    </tbody>
+  </table>
+</div>
+
+
+  <script>
+    // Load TEAM SUMMARY
+    async function loadTeamSummary() {
+      const res = await fetch("/team-summary");
+      const data = await res.json();
+      const div = document.getElementById("team-summary");
+
+      div.innerHTML = `
+        <p><strong>Total Team Amount:</strong> 
+          <span class="highlight-green">₹${data.teamamount}</span>
+        </p>
+        <p><strong>Team Due Amount:</strong> 
+          <span class="highlight-red">₹${data.teamdueamount}</span>
+        </p>
+        <p><strong>Team Due Players:</strong> 
+          <span class="highlight-red">${data.teamdueamountplayers || '-'}</span>
+        </p>
+        <p><strong>Players Due Amount:</strong> 
+          <span class="highlight-green">₹${data.playersdueamount}</span>
+        </p>
+        <p><strong>Players Due List:</strong> 
+          <span class="highlight-green">${data.playersdueamountplayers || '-'}</span>
+        </p>
+      `;
+    }
+
+    // Load EXPENSES with monthly totals
+    async function loadExpenses() {
+      const res = await fetch("/expenses");
+      const data = await res.json();
+      const tbody = document.getElementById("expenses-body");
+
+      const grouped = new Map();
+
+      data.forEach(item => {
+        const month = item.expensedate.substring(0, 2);
+        const year = item.expensedate.slice(-4);
+        const key = month + year;
+        if (!grouped.has(key)) grouped.set(key, []);
+        grouped.get(key).push(item);
+      });
+      
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      let lastMonthTotal = 0;
+      for (const [key, items] of grouped.entries()) {
+        
+        let monthlyTotal = 0;
+        items.forEach(item => {
+          monthlyTotal += item.amount;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${item.expensedate}</td>
+           
+            <td>${item.desc}</td>
+            <td class="${item.amount >= 0 ? 'amount-pos' : 'amount-neg'}">
+              ${item.amount >= 0 ? `₹${item.amount}` : `-₹${Math.abs(item.amount)}`}
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        
+        let monthEndTotal = monthlyTotal + lastMonthTotal;
+        const monthNum = parseInt(key.substring(0, 2), 10);
+        const yearStr = key.slice(2);
+        const label = `${monthNames[monthNum - 1]} ${yearStr}`;
+
+        const trTotal = document.createElement("tr");
+        trTotal.classList.add("summary-row");
+        trTotal.innerHTML = `
+          <td colspan="2" style="text-align:right;">Total for ${label} End</td>
+          <td class="${monthEndTotal >= 0 ? 'amount-pos' : 'amount-neg'}">
+            ${monthEndTotal >= 0 ? `₹${monthEndTotal}` : `-₹${Math.abs(monthEndTotal)}`}
+          </td>
+        `;
+        tbody.appendChild(trTotal);
+
+        lastMonthTotal = monthEndTotal;
+      }
+    }
+
+    // Load TOURNAMENTS
+    async function loadTournaments(isactive) {
+      console.log("✅ Tournaments route file loaded 2");
+
+      const res = await fetch("/tournaments?isactive="+isactive);
+      const data = await res.json();
+      const tbody = document.getElementById("tournaments-body");
+      tbody.innerHTML = "";
+
+      let totalEntry = 0;
+      let totalPaid = 0;
+      let totalBalance = 0;
+      let totalPrize = 0;
+
+      data.forEach(t => {
+        totalEntry += t.entryfees;
+        totalPaid += t.paid;
+        totalBalance += t.balance;
+        totalPrize += t.prizewon;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${t.id}</td>
+          <td>${t.name}</td>
+          <td>₹${t.entryfees}</td>
+          <td>₹${t.paid}</td>
+          <td>₹${t.balance}</td>
+          <td>₹${t.prizewon}</td>
+          <td>${t.iscompleted ? "✅" : "❌"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totalRow = document.createElement("tr");
+      totalRow.classList.add("summary-row"); // optional for CSS styling
+      totalRow.innerHTML = `
+        <td colspan="2" style="text-align:right; font-weight:bold;">Totals:</td>
+        <td><b>₹${totalEntry}</b></td>
+        <td><b>₹${totalPaid}</b></td>
+        <td><b>₹${totalBalance}</b></td>
+        <td><b>₹${totalPrize}</b></td>
+        <td></td>
+      `;
+      tbody.appendChild(totalRow);
+    }
+
+  async function loadMonthlyContribution() {
+  console.log("✅ Loading Monthly Contribution Summary");
+
+  const res = await fetch("/monthlycontribution");
+  const data = await res.json();
+  const tbody = document.getElementById("monthlycontribution-body");
+  tbody.innerHTML = "";
+
+  // 🧠 Step 1: Group data by paidmonth
+  const grouped = {};
+  data.forEach(item => {
+    const month = item.paidmonth.trim();
+    if (!grouped[month]) grouped[month] = [];
+    grouped[month].push(item);
+  });
+
+  let grandTotal = 0;
+
+  // 🧱 Step 2: Render month-wise groups
+  Object.keys(grouped).forEach(month => {
+    const monthData = grouped[month];
+    let monthTotal = 0;
+
+    // 🏷️ Month header row
+    const monthRow = document.createElement("tr");
+    monthRow.innerHTML = `
+      <td colspan="4" style="font-weight:bold; background:#f2f2f2;">📅 ${month}</td>
+    `;
+    tbody.appendChild(monthRow);
+
+    monthData.forEach(item => {
+      monthTotal += parseFloat(item.paidamount) || 0;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td></td>
+        <td>${item.paidname}</td>
+        <td>${item.paidon}</td>
+        <td>₹${item.paidamount}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // 💰 Month total row
+    const totalRow = document.createElement("tr");
+    totalRow.innerHTML = `
+      <td></td>
+      <td></td>
+      <td style="text-align:right; font-weight:bold;">Month total:</td>
+      <td><b>₹${monthTotal}</b></td>
+    `;
+    tbody.appendChild(totalRow);
+
+    grandTotal += monthTotal;
+  });
+
+  const grandRow = document.createElement("tr");
+  grandRow.innerHTML = `
+    <td colspan="3" style="text-align:right; font-weight:bold;">Grand Total:</td>
+    <td><b>₹${grandTotal}</b></td>
+  `;
+  tbody.appendChild(grandRow);
+}
+
+
+
+    // Call all loaders
+    loadTeamSummary();
+    loadExpenses();
+    loadTournaments(false);
+    loadMonthlyContribution();
+    
+  document.addEventListener("DOMContentLoaded", () => {
+    const checkbox = document.getElementById("completedFilter");
+    checkbox.addEventListener("change", () => {
+      loadTournaments(checkbox.checked);
+    });
+  });
+
+
+  </script>
+</body>
+</html>
