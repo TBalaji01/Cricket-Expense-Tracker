@@ -57,6 +57,278 @@
     .summary-row td { border-top: 2px solid #4CAF50; }
     .highlight-red { color: #c62828; font-weight: bold; }
     .highlight-green { color: #2e7d32; font-weight: bold; }
+
+   /* Modern modal styling */
+/* Modal background overlay */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent black */
+  backdrop-filter: blur(3px); /* nice blur effect */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal box */
+.modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-align: left;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Title */
+#playerModalTitle {
+  margin-bottom: 16px;
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Input styling */
+.modal-content input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Buttons */
+.modal-content button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-content button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-content button:first-child:hover {
+  background-color: #0069d9;
+}
+
+.modal-content button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.modal-content button:last-child:hover {
+  background-color: #d32f2f;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.tournament-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  z-index: 2000;
+}
+
+.tournament-modal-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  width: 420px;
+  max-width: 90%;
+  animation: slideIn 0.3s ease-out;
+}
+
+.tournament-modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.tournament-modal-content input[type="text"],
+.tournament-modal-content input[type="number"],
+.tournament-modal-content textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.tournament-modal-content textarea {
+  resize: none;
+}
+
+.tournament-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.tournament-modal-buttons button,
+.modal-expense-buttons button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tournament-modal-buttons .save-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.tournament-modal-buttons .save-btn:hover {
+  background-color: #0056b3;
+}
+
+.tournament-modal-buttons .cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.tournament-modal-buttons .cancel-btn:hover {
+  background-color: #b02a37;
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Expense Modal – same style as tournament modal */
+.modal-expense {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+}
+
+.modal-expense-content {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.modal-expense-content h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+}
+
+.modal-expense-content label {
+  font-weight: 500;
+}
+
+.modal-expense-content input,
+.modal-expense-content select,
+.modal-expense-content textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-expense-content textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.modal-expense-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-expense-buttons button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal-expense-buttons button:first-child {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.modal-expense-buttons button:last-child {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.close-modal {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.close-modal:hover {
+  color: #000;
+}
+
   </style>
 </head>
 <body>
@@ -71,6 +343,7 @@
   <!-- EXPENSES -->
   <div class="card">
     <h2>💰 Team Expenses</h2>
+    <button id="addExpnseBtn" onclick='openExpenseModal(null);' style="margin-bottom:10px;background-color: white;border: none;">➕ Add Expenses</button>
     <table>
       <thead>
         <tr>
@@ -89,10 +362,13 @@
   <div class="card">
   <h2>🏆 Tournaments</h2>
   
-  <label style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
-    <input type="checkbox" id="completedFilter">
-    Show Completed Tournaments
-  </label>
+  <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+    <button id="addTournamentBtn" onclick='openTournamentModal(null);' style="margin-bottom:10px;background-color: white;border: none;">➕ Add Tournament</button>
+    <label style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+      <input type="checkbox" id="completedFilter">
+      Show Completed Tournaments
+    </label>
+  </div>
   
   <table>
     <thead>
@@ -132,8 +408,135 @@
   </table>
 </div>
 
+<!-- PLAYERS -->
+<div class="card">
+  <h2>👥 Players</h2>
+  <button id="addPlayerBtn" style="margin-bottom:10px;background-color: white;border: none;">➕ Add Player</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Last Paid On</th>
+        <th>Advance Given</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="players-body">
+      <!-- Data will load here -->
+    </tbody>
+  </table>
+</div>
+
+<!-- PLAYER MODAL -->
+<div id="playerModal" class="modal">
+  <div class="modal-content">
+    <div style="position: relative; display: flex; justify-content: center; align-items: center; padding-right: 30px;">
+      <h3 id="playerModalTitle">Add Player</h3>
+      <span class="close-modal" onclick="closePlayerModal()">&times;</span>
+    </div>    
+   
+    <input type="hidden" id="playerId">
+    <label>Name:</label>
+    <input type="text" id="playerName" placeholder="Enter player name">
+    <label>Mobile:</label>
+    <input type="text" id="playerMobile" placeholder="Enter mobile number">
+    <div  class="tournament-modal-buttons">
+      <button onclick="savePlayer()">Save</button>
+      <button onclick="closePlayerModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOURNAMENT MODAL -->
+<div id="tournamentModal" class="tournament-modal" style="display:none;">
+  <div class="tournament-modal-content">
+
+    <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+      <h3 id="tournamentModalTitle"  style="    font-size: 20px;">Add Tournament</h3>
+      <span class="close-modal" onclick="closeTournamentModal()">&times;</span>
+    </div>    
+    
+
+    <input type="hidden" id="tournamentId">
+
+    <label for="tournamentName">Tournament Name:</label>
+    <input type="text" id="tournamentName" placeholder="Enter tournament name">
+
+    <label for="tournamentEntryFee">Entry Fee:</label>
+    <input type="number" id="tournamentEntryFee" placeholder="Enter entry fee">
+
+    <label for="tournamentDesc">Description:</label>
+    <textarea id="tournamentDesc" rows="3" placeholder="Write short description"></textarea>
+
+    <label style="display:flex;align-items:center;gap:8px;">
+      <input type="checkbox" id="tournamentCompleted"> Completed?
+    </label>
+
+    <div class="tournament-modal-buttons">
+      <button class="save-btn" onclick="saveTournament()">Save</button>
+      <button class="cancel-btn" onclick="closeTournamentModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Expense Modal -->
+<div id="expenseModal" class="modal-expense">
+  <div class="modal-expense-content">
+    <div style="position: relative; display: flex; justify-content: center; align-items: center; padding-right: 30px;">
+      <h2 id="expenseModalTitle">Add Expense</h2>
+      <span class="close-modal" onclick="closeExpenseModal()">&times;</span>
+    </div>    
+
+    <input type="hidden" id="expenseId">
+
+    <label for="expensePayeeType">Payee Type</label>
+    <select id="expensePayeeType" onchange="populatePayerDropdown()">
+      <option value="-1">None</option>
+      <option value="1">Player</option>
+      <option value="2">Tournament</option>
+    </select>
+
+    <label for="expensePayeeId">Payer</label>
+    <select id="expensePayeeId">
+      <option value="-1">None</option>
+    </select>
+
+    <label for="expenseAmount">Amount (₹)</label>
+    <input type="number" id="expenseAmount" min="1" required>
+
+    <label for="expenseDate">Expense Date</label>
+    <input type="date" id="expenseDate" required>
+
+    <label for="expenseMonthYear">Month/Year</label>
+    <input type="month" id="expenseMonthYear" required>
+
+    <label for="expenseType">Expense Type</label>
+    <select id="expenseType" required>
+      <option value="1">Income</option>
+      <option value="2">Outcome</option>
+      <option value="3">Adv from Player to Team</option>
+      <option value="4">Adv Return from Team to Player</option>
+      <option value="5">Adv from Team to Player</option>
+      <option value="6">Adv Return from Player to Team</option>
+    </select>
+
+    <label for="expenseDescription">Description</label>
+    <textarea id="expenseDescription" required></textarea>
+
+    <div class="modal-expense-buttons">
+      <button type="button" onclick="saveExpense()">Save</button>
+      <button type="button" onclick="closeExpenseModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 
   <script>
+    let players = [];       // Array to hold player data
+    let tournaments = [];   // Array to hold tournament data
+    const urlParams = new URLSearchParams(window.location.search);
+    const isEditMode = urlParams.has("isedit"); // true if ?isedit exists
     // Load TEAM SUMMARY
     async function loadTeamSummary() {
       const res = await fetch("/team-summary");
@@ -184,6 +587,7 @@
         items.forEach(item => {
           monthlyTotal += item.amount;
           const tr = document.createElement("tr");
+          const editButton = isEditMode  ? `<td><button onclick='openExpenseModal(${JSON.stringify(item)})' style="background-color: white; border: none;">✏️ Edit</button></td>`  : ``;
           tr.innerHTML = `
             <td>${item.expensedate}</td>
            
@@ -220,6 +624,7 @@
 
       const res = await fetch("/tournaments?isactive="+isactive);
       const data = await res.json();
+      tournaments = data;
       const tbody = document.getElementById("tournaments-body");
       tbody.innerHTML = "";
 
@@ -234,6 +639,7 @@
         totalBalance += t.balance;
         totalPrize += t.prizewon;
 
+        const editButton = isEditMode  ? `<td><button onclick='openTournamentModal(${JSON.stringify(t)})' style="background-color: white; border: none;">✏️ Edit</button></td>`  : ``;
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${t.id}</td>
@@ -242,7 +648,8 @@
           <td>₹${t.paid}</td>
           <td>₹${t.balance}</td>
           <td>₹${t.prizewon}</td>
-          <td>${t.iscompleted ? "✅" : "❌"}</td>
+          <td>${t.iscompleted ? "Yes" : "No"}</td>
+          ${editButton}
         `;
         tbody.appendChild(tr);
       });
@@ -323,6 +730,272 @@
   tbody.appendChild(grandRow);
 }
 
+async function loadPlayers() {
+  console.log("✅ Loading Players...");
+  const res = await fetch("/players");
+  const data = await res.json();
+
+  players = data;
+  const tbody = document.getElementById("players-body");
+  tbody.innerHTML = "";
+
+  data.forEach(p => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${p.name}</td>
+      <td>${p.lastpaid}</td>
+      <td>₹${p.advance}</td>
+      <td>
+        <button onclick="openEditPlayer(${p.id}, '${p.name}', '${p.mobile}')" style="background-color: white;border: none;">✏️ Edit</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Modal control
+function openEditPlayer(id, name, mobile) {
+  if(!isEditMode) {
+    alert("You Dont Have Permission to Add/Edit");
+    return;
+  }
+  document.getElementById("playerId").value = id;
+  document.getElementById("playerName").value = name;
+  document.getElementById("playerMobile").value = mobile;
+  document.getElementById("playerModalTitle").textContent = "Edit Player";
+  document.getElementById("playerModal").style.display = "flex";
+}
+
+document.getElementById("addPlayerBtn").addEventListener("click", () => {
+  if(!isEditMode) alert("You Dont Have Permission to Add/Edit");
+  document.getElementById("playerId").value = "";
+  document.getElementById("playerName").value = "";
+  document.getElementById("playerMobile").value = "";
+  document.getElementById("playerModalTitle").textContent = "Add Player";
+  document.getElementById("playerModal").style.display = "flex";
+});
+
+function closePlayerModal() {
+  document.getElementById("playerModal").style.display = "none";
+}
+
+async function savePlayer() {
+  const id = document.getElementById("playerId").value;
+  const name = document.getElementById("playerName").value.trim();
+  const mobile = document.getElementById("playerMobile").value.trim();
+
+  if (!name) {
+    alert("Please enter player name");
+    return;
+  }
+
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/players/${id}` : "/players";
+
+  const res = await fetch(url, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, mobile })
+  });
+
+  if (res.ok) {
+    alert("✅ Player saved successfully!");
+    closePlayerModal();
+    loadPlayers();
+  } else {
+    alert("❌ Error saving player");
+  }
+}
+
+function openTournamentModal(tournament = null) {
+  if(!isEditMode) {
+    alert("You Dont Have Permission to Add/Edit");
+    return;
+  }
+  const modal = document.getElementById("tournamentModal");
+  modal.style.display = "flex";
+
+  if (tournament) {
+    document.getElementById("tournamentModalTitle").innerText = "Edit Tournament";
+    document.getElementById("tournamentId").value = tournament.id;
+    document.getElementById("tournamentName").value = tournament.name;
+    document.getElementById("tournamentEntryFee").value = tournament.entryfees;
+    document.getElementById("tournamentDesc").value = tournament.desc || "";
+    document.getElementById("tournamentCompleted").checked = tournament.iscompleted;
+  } else {
+    document.getElementById("tournamentModalTitle").innerText = "Add Tournament";
+    document.getElementById("tournamentId").value = "";
+    document.getElementById("tournamentName").value = "";
+    document.getElementById("tournamentEntryFee").value = "";
+    document.getElementById("tournamentDesc").value = "";
+    document.getElementById("tournamentCompleted").checked = false;
+  }
+}
+
+function closeTournamentModal() {
+  document.getElementById("tournamentModal").style.display = "none";
+}
+
+async function saveTournament() {
+  const id = document.getElementById("tournamentId").value;
+  const name = document.getElementById("tournamentName").value.trim();
+  const fee = parseInt(document.getElementById("tournamentEntryFee").value) || 0;
+  const desc = document.getElementById("tournamentDesc").value.trim();
+  const completed = document.getElementById("tournamentCompleted").checked;
+
+  if (!name) {
+    alert("Please enter tournament name");
+    return;
+  }
+
+  const payload = {
+    tournament_name: name,
+    tournament_entry_fee: fee,
+    tournament_description: desc,
+    tournament_iscompleted: completed
+  };
+
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/tournaments/${id}` : `/tournaments`;
+
+  const res = await fetch(url, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (res.ok) {
+    alert("✅ Tournament saved successfully!");
+    closeTournamentModal();
+    loadTournaments(); // reload the list
+  } else {
+    alert("❌ Failed to save tournament.");
+  }
+}
+
+// Open modal
+function openExpenseModal(expense = null) {
+  if(!isEditMode) {
+    alert("You Dont Have Permission to Add/Edit");
+    return;
+  }
+  const modal = document.getElementById("expenseModal");
+  modal.style.display = "flex";
+
+  if (expense) {
+    document.getElementById("expenseModalTitle").innerText = "Edit Expense";
+    document.getElementById("expenseId").value = expense.expense_id;
+    document.getElementById("expensePayeeType").value = expense.expense_payee_type;
+    populatePayerDropdown(expense.expense_payee_type, expense.expense_payee_id);
+    document.getElementById("expenseAmount").value = Math.abs(expense.expense_amount);
+    document.getElementById("expenseDate").value = expense.expense_spent_date;
+    document.getElementById("expenseMonthYear").value = expense.expense_month_year.slice(0,7);
+    document.getElementById("expenseType").value = expense.expense_type;
+    document.getElementById("expenseDescription").value = expense.expense_description;
+  } else {
+    document.getElementById("expenseModalTitle").innerText = "Add Expense";
+    document.getElementById("expenseId").value = "";
+    document.getElementById("expensePayeeType").value = -1;
+    populatePayerDropdown(-1);
+    document.getElementById("expenseAmount").value = "";
+    document.getElementById("expenseDate").value = "";
+    document.getElementById("expenseMonthYear").value = "";
+    document.getElementById("expenseType").value = 1;
+    document.getElementById("expenseDescription").value = "";
+  }
+}
+
+// Close modal
+function closeExpenseModal() {
+  document.getElementById("expenseModal").style.display = "none";
+}
+
+// Populate Payer dropdown based on Payee Type
+function populatePayerDropdown(type = null, selectedId = -1) {
+  const payeeType = type ?? parseInt(document.getElementById("expensePayeeType").value);
+  const payerSelect = document.getElementById("expensePayeeId");
+  payerSelect.innerHTML = "";
+
+  if (payeeType === -1) {
+    payerSelect.innerHTML = `<option value="-1">None</option>`;
+  } else if (payeeType === 1) {
+    // Populate Players
+    players.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p.id;
+      opt.text = p.name;
+      if (p.id == selectedId) opt.selected = true;
+      payerSelect.appendChild(opt);
+    });
+  } else if (payeeType === 2) {
+    // Populate Tournaments
+    tournaments.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.text = t.name;
+      if (t.id == selectedId) opt.selected = true;
+      payerSelect.appendChild(opt);
+    });
+  }
+}
+
+// Save expense
+async function saveExpense() {
+  const id = document.getElementById("expenseId").value;
+  const payeeType = parseInt(document.getElementById("expensePayeeType").value);
+  const payeeId = parseInt(document.getElementById("expensePayeeId").value);
+  const amountRaw = parseFloat(document.getElementById("expenseAmount").value);
+  const date = document.getElementById("expenseDate").value;
+  const monthYear = document.getElementById("expenseMonthYear").value;
+  const type = parseInt(document.getElementById("expenseType").value);
+  const desc = document.getElementById("expenseDescription").value.trim();
+
+  if (!date || !monthYear || !desc || !amountRaw || payeeType === null || type === null) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  let amount = amountRaw;
+  // Positive/negative based on type
+  if (![1,3,6].includes(type)) amount = -Math.abs(amount);
+  else amount = Math.abs(amount);
+
+  if (amount === 0) {
+    alert("Amount must be greater than 0");
+    return;
+  }
+
+  const payload = {
+    expense_payee_type: payeeType,
+    expense_payee_id: payeeId,
+    expense_amount: amount,
+    expense_spent_date: date,
+    expense_month_year: monthYear+"-01",
+    expense_type: type,
+    expense_description: desc
+  };
+
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/expenses/${id}` : `/expenses`;
+
+  const res = await fetch(url, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (res.ok) {
+    alert("✅ Expense saved successfully!");
+    closeExpenseModal();
+    loadExpenses();
+    loadTeamSummary();
+    loadMonthlyContribution();
+    loadPlayers();
+    loadTournaments(false);
+  } else {
+    alert("❌ Failed to save expense.");
+  }
+}
 
 
     // Call all loaders
@@ -330,6 +1003,7 @@
     loadExpenses();
     loadTournaments(false);
     loadMonthlyContribution();
+    loadPlayers();
     
   document.addEventListener("DOMContentLoaded", () => {
     const checkbox = document.getElementById("completedFilter");
