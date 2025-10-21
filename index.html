@@ -950,12 +950,12 @@ async function saveExpense() {
   const type = parseInt(document.getElementById("expenseType").value);
   const desc = document.getElementById("expenseDescription").value.trim();
 
-  if (!date || !monthYear || !desc || !amountRaw || payeeType === null || type === null) {
+  if (!date || !monthYear || !desc || payeeType === null || type === null) {
     alert("Please fill all fields");
     return;
   }
 
-  let amount = amountRaw;
+  let amount = (!amountRaw ? 0 : amountRaw);
   // Positive/negative based on type
   if (![1,3,6].includes(type)) amount = -Math.abs(amount);
   else amount = Math.abs(amount);

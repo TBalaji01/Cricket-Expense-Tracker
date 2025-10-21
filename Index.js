@@ -164,15 +164,15 @@ app.get("/monthlycontribution", async (req, res) => {
     const query = `
       select 
         to_char(expense_month_year,'Month YYYY') as paidmonth,
-        expense_amount as paidamount,
-        to_char(expense_spent_date,'MM/DD/YYYY') paidon,
+        sum(expense_amount) as paidamount,
+        string_agg(to_char(expense_spent_date,'MM/DD/YYYY'),',') paidon,
         player_name as paidname
       from expenses 
       inner join players on expense_payee_id = player_id 
         and expense_payee_type = 1 
         and expense_type = 1
-      group by to_char(expense_month_year,'Month YYYY'), expense_amount, player_name ,paidon 
-      order by min(expense_month_year),paidon asc;
+      group by to_char(expense_month_year,'Month YYYY'),player_name  
+      order by min(expense_month_year),min(expense_spent_date),min(expense_id) asc;
     `;
 
     const result = await pool.query(query);
