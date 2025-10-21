@@ -567,7 +567,7 @@
       const res = await fetch("/expenses");
       const data = await res.json();
       const tbody = document.getElementById("expenses-body");
-
+      tbody.innerHTML = "";
       const grouped = new Map();
 
       data.forEach(item => {
@@ -960,10 +960,10 @@ async function saveExpense() {
   if (![1,3,6].includes(type)) amount = -Math.abs(amount);
   else amount = Math.abs(amount);
 
-  if (amount === 0) {
+  /*if (amount === 0) {
     alert("Amount must be greater than 0");
     return;
-  }
+  }*/
 
   const payload = {
     expense_payee_type: payeeType,
